@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rising Sun – Memory Care</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0a08;
+      color: #f5f0eb;
+      overflow-x: hidden;
+      height: 400vh;
+      scroll-behavior: smooth;
+    }
+    #three-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    #blur-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+      background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.5) 100%);
+      opacity: 0;
+      transition: opacity 0.2s;
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+    }
+    nav {
+      position: fixed;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 0.6rem 2rem;
+      border-radius: 100px;
+      background: rgba(11, 10, 8, 0.5);
+      border: 1px solid rgba(201, 169, 110, 0.15);
+      backdrop-filter: blur(12px);
+      white-space: nowrap;
+      flex-wrap: nowrap;
+    }
+    nav a {
+      color: rgba(245, 240, 235, 0.7);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 1.5px;
+      transition: color 0.3s;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    nav a:hover, nav a.active { color: #c9a96e; }
+    .nav-cta {
+      background: #c9a96e;
+      color: #0b0a08;
+      border: none;
+      padding: 0.4rem 1.6rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+    .nav-cta:hover { background: #b8995e; transform: scale(1.05); }
+
+    .section-content {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      pointer-events: none;
+      padding-top: 6rem;
+    }
+    .section-content .content-wrapper {
+      max-width: 800px;
+      padding: 0 2rem;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .section-content .content-wrapper.visible {
+      opacity: 1;
+    }
+    .section-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 400;
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.7);
+    }
+    .section-content p {
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      font-weight: 300;
+      color: rgba(245,240,235,0.9);
+      max-width: 600px;
+      margin: 0 auto;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+      line-height: 1.7;
+    }
+    .section-content .highlight {
+      color: #c9a96e;
+    }
+    .scroll-hint {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      color: rgba(255,255,255,0.25);
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,20%,50%,80%,100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-8px); }
+      60% { transform: translateX(-50%) translateY(-4px); }
+    }
+    @media (max-width: 768px) {
+      nav { gap: 0.8rem; padding: 0.4rem 1rem; top: 0.8rem; }
+      nav a { font-size: 0.6rem; letter-spacing: 1px; }
+      .nav-cta { padding: 0.2rem 0.8rem; font-size: 0.55rem; }
+      .section-content { padding-top: 5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="three-container"></div>
+  <div id="blur-overlay"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#section-home" class="active">Home</a>
+    <a href="#section-about">About</a>
+    <a href="#section-services">Services</a>
+    <a href="#section-contact">Contact</a>
+    <button class="nav-cta">Schedule Tour</button>
+  </nav>
+
+  <!-- Content Overlays -->
+  <div class="section-content" id="content-home">
+    <div class="content-wrapper visible">
+      <h2>Welcome to <span class="highlight">Rising Sun</span></h2>
+      <p>Where love outshines the setting sun. A premium memory care community in Sacramento, offering a 3:1 staff‑to‑resident ratio and personalized, holistic care.</p>
+    </div>
+  </div>
+  <div class="section-content" id="content-about">
+    <div class="content-wrapper">
+      <h2>Our <span class="highlight">Promise</span></h2>
+      <p>We believe every moment holds golden light. Our philosophy celebrates small joys, preserves dignity, and creates a warm, home‑like sanctuary for those living with memory loss.</p>
+    </div>
+  </div>
+  <div class="section-content" id="content-services">
+    <div class="content-wrapper">
+      <h2>Our <span class="highlight">Services</span></h2>
+      <p>24/7 skilled nursing, medication management, daily activities, nutritious meals, and a vibrant community—all in a boutique, intimate setting designed for comfort and peace.</p>
+    </div>
+  </div>
+  <div class="section-content" id="content-contact">
+    <div class="content-wrapper">
+      <h2>Let’s <span class="highlight">Connect</span></h2>
+      <p>Schedule a personal tour, ask questions, or simply learn more. We’re here to help you navigate this journey with compassion and clarity.</p>
+    </div>
+  </div>
+
+  <div class="scroll-hint">↓ Scroll to explore ↓</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    (function() {
+      // ---- Setup ----
+      const container = document.getElementById('three-container');
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0b0a08);
+
+      const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 100);
+      camera.position.set(0, 2, 10);
+      camera.lookAt(0, 0, 0);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.2;
+      container.appendChild(renderer.domElement);
+
+      // ---- Scroll & Transition State ----
+      let scrollProgress = 0;
+      let currentScene = 0;
+      let transitionProgress = 1;
+      const totalSections = 4;
+      // Target camera positions for each scene (Home, About, Services, Contact)
+      const targetPositions = [
+        { x:0, y:2, z:10, target:[0,0,0] },      // Home (space)
+        { x:0, y:3.5, z:8, target:[0,2,-3] },    // About (sky blue, clouds)
+        { x:0, y:3.5, z:14, target:[0,-0.5,-8] },// Services (beach)
+        { x:2, y:2.5, z:6, target:[0,0.5,-10] }  // Contact (yacht)
+      ];
+      const bgColors = [
+        0x0b0a08, // space
+        0x4a90d9, // sky blue (about)
+        0x4a90d9, // beach (also blue)
+        0xff7f50  // sunset (contact)
+      ];
+
+      let fromIndex = 0, toIndex = 0;
+
+      // ---- Helper: create clouds ----
+      function createCloud(x, y, z, scale, colorHex = 0xfff5e6, emissiveHex = 0xffaa55) {
+        const group = new THREE.Group();
+        const matCloud = new THREE.MeshStandardMaterial({
+          color: colorHex,
+          transparent: true,
+          opacity: 0.5,
+          roughness: 0.9,
+          emissive: emissiveHex,
+          emissiveIntensity: 0.08,
+          side: THREE.DoubleSide
+        });
+        const positions = [[0,0,0], [0.6,0.1,0.2], [-0.5,0.15,-0.1], [0.3,0.2,0.4], [-0.3,0.25,-0.3]];
+        positions.forEach(pos => {
+          const size = 0.3 + Math.random()*0.5;
+          const sphere = new THREE.Mesh(new THREE.SphereGeometry(size, 8,8), matCloud);
+          sphere.position.set(pos[0], pos[1], pos[2]);
+          sphere.scale.y = 0.6;
+          group.add(sphere);
+        });
+        group.position.set(x, y, z);
+        group.scale.set(scale, scale, scale);
+        return group;
+      }
+
+      // ---- Build Scene Groups ----
+      // Group 0: Space
+      const spaceGroup = new THREE.Group();
+      scene.add(spaceGroup);
+      // Stars
+      const starCount = 3000;
+      const starPos = new Float32Array(starCount*3);
+      for (let i=0; i<starCount; i++) {
+        const r = 6 + Math.random()*15;
+        const theta = Math.random()*Math.PI*2;
+        const phi = Math.acos(2*Math.random()-1);
+        starPos[i*3] = r*Math.sin(phi)*Math.cos(theta);
+        starPos[i*3+1] = r*Math.sin(phi)*Math.sin(theta)*0.5;
+        starPos[i*3+2] = r*Math.cos(phi);
+      }
+      const starGeo = new THREE.BufferGeometry();
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+      const starTex = (() => {
+        const c = document.createElement('canvas');
+        c.width=16; c.height=16;
+        const ctx = c.getContext('2d');
+        const g = ctx.createRadialGradient(8,8,0,8,8,8);
+        g.addColorStop(0, 'rgba(255,255,255,1)');
+        g.addColorStop(0.2, 'rgba(255,215,150,0.8)');
+        g.addColorStop(1, 'rgba(255,215,150,0)');
+        ctx.fillStyle = g; ctx.fillRect(0,0,16,16);
+        return new THREE.CanvasTexture(c);
+      })();
+      const starMat = new THREE.PointsMaterial({
+        size: 0.12,
+        map: starTex,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        transparent: true,
+        opacity: 0.9,
+        color: 0xccbbaa
+      });
+      const stars = new THREE.Points(starGeo, starMat);
+      spaceGroup.add(stars);
+
+      // Group 1: About – Blue sky with warm clouds
+      const aboutGroup = new THREE.Group();
+      scene.add(aboutGroup);
+      // Clouds with warm sunrise coloring (peach/orange tint)
+      for (let i=0; i<40; i++) {
+        const x = (Math.random()-0.5)*30;
+        const y = 1 + Math.random()*5;
+        const z = (Math.random()-0.5)*20 - 4;
+        const scale = 0.6 + Math.random()*2.0;
+        const cloud = createCloud(x, y, z, scale, 0xffeedd, 0xffaa55);
+        aboutGroup.add(cloud);
+      }
+
+      // Group 2: Services – Beach (unchanged)
+      const beachGroup = new THREE.Group();
+      scene.add(beachGroup);
+      const oceanGeo = new THREE.PlaneGeometry(50, 50, 100, 100);
+      oceanGeo.rotateX(-Math.PI/2);
+      const oceanMat = new THREE.MeshPhysicalMaterial({
+        color: 0x1a6a8a,
+        roughness: 0.2,
+        metalness: 0.1,
+        side: THREE.DoubleSide
+      });
+      const ocean = new THREE.Mesh(oceanGeo, oceanMat);
+      ocean.position.set(0, -0.8, -8);
+      ocean.receiveShadow = true;
+      beachGroup.add(ocean);
+      const islandGeo = new THREE.CylinderGeometry(3.5, 2.0, 0.4, 24);
+      const islandMat = new THREE.MeshStandardMaterial({ color: 0xd4b48c, roughness: 0.9 });
+      const islandMesh = new THREE.Mesh(islandGeo, islandMat);
+      islandMesh.position.set(0, -0.5, -6);
+      islandMesh.receiveShadow = true;
+      islandMesh.castShadow = true;
+      beachGroup.add(islandMesh);
+      const grassGeo = new THREE.CylinderGeometry(3.3, 3.4, 0.1, 24);
+      const grassMat = new THREE.MeshStandardMaterial({ color: 0x7cb342, roughness: 0.8 });
+      const grass = new THREE.Mesh(grassGeo, grassMat);
+      grass.position.set(0, -0.3, -6);
+      grass.receiveShadow = true;
+      beachGroup.add(grass);
+      function createChair(x, z) {
+        const g = new THREE.Group();
+        const mat = new THREE.MeshStandardMaterial({ color: 0x8d6e63 });
+        const seat = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.1, 0.8), mat);
+        seat.position.y = 0.2;
+        seat.castShadow = true;
+        g.add(seat);
+        const back = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.5, 0.05), mat);
+        back.position.set(0, 0.45, -0.4);
+        back.castShadow = true;
+        g.add(back);
+        g.position.set(x, -0.3, z);
+        return g;
+      }
+      beachGroup.add(createChair(-1.2, -5.2));
+      beachGroup.add(createChair(1.2, -5.2));
+      function createUmbrella(x, z) {
+        const g = new THREE.Group();
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1.2, 8),
+          new THREE.MeshStandardMaterial({ color: 0x8d6e63 }));
+        pole.position.y = 0.6;
+        pole.castShadow = true;
+        g.add(pole);
+        const canopy = new THREE.Mesh(new THREE.ConeGeometry(1.6, 0.7, 8),
+          new THREE.MeshStandardMaterial({ color: 0xe53935, roughness: 0.8 }));
+        canopy.position.y = 1.2;
+        canopy.castShadow = true;
+        g.add(canopy);
+        const stripe = new THREE.Mesh(new THREE.ConeGeometry(1.3, 0.5, 8),
+          new THREE.MeshStandardMaterial({ color: 0xffcc80, roughness: 0.8 }));
+        stripe.position.y = 1.3;
+        stripe.castShadow = true;
+        g.add(stripe);
+        g.position.set(0, -0.3, z);
+        return g;
+      }
+      beachGroup.add(createUmbrella(0, -4.5));
+      function createSilhouette(x, z) {
+        const g = new THREE.Group();
+        const mat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a });
+        const body = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.6, 8), mat);
+        body.position.y = 0.3;
+        body.castShadow = true;
+        g.add(body);
+        const head = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), mat);
+        head.position.y = 0.7;
+        head.castShadow = true;
+        g.add(head);
+        g.position.set(x, -0.3, z);
+        return g;
+      }
+      beachGroup.add(createSilhouette(-0.7, -5.8));
+      beachGroup.add(createSilhouette(0.7, -5.8));
+
+      // Group 3: Contact – Yacht with sunset clouds
+      const contactGroup = new THREE.Group();
+      scene.add(contactGroup);
+      const yachtOcean = new THREE.Mesh(
+        new THREE.PlaneGeometry(60, 60, 80, 80).rotateX(-Math.PI/2),
+        new THREE.MeshPhysicalMaterial({ color: 0x1a4a6a, roughness: 0.3, metalness: 0.1, side: THREE.DoubleSide })
+      );
+      yachtOcean.position.set(0, -0.8, -10);
+      contactGroup.add(yachtOcean);
+      function createYacht() {
+        const g = new THREE.Group();
+        const hullMat = new THREE.MeshStandardMaterial({ color: 0xf5f5f0, roughness: 0.3, metalness: 0.2 });
+        const hull = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.4, 0.8), hullMat);
+        hull.position.y = 0.2;
+        hull.castShadow = true;
+        g.add(hull);
+        const cabinMat = new THREE.MeshStandardMaterial({ color: 0xe0d5c0, roughness: 0.6 });
+        const cabin = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.4, 0.6), cabinMat);
+        cabin.position.set(-0.3, 0.6, 0);
+        cabin.castShadow = true;
+        g.add(cabin);
+        const mastMat = new THREE.MeshStandardMaterial({ color: 0x5d4037 });
+        const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 1.8, 6), mastMat);
+        mast.position.set(0.5, 1.2, 0);
+        mast.castShadow = true;
+        g.add(mast);
+        const sailMat = new THREE.MeshStandardMaterial({
+          color: 0xfaf0e6,
+          roughness: 0.9,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.9
+        });
+        const sail = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 1.4), sailMat);
+        sail.position.set(0.5, 1.4, 0);
+        sail.rotation.y = 0.1;
+        sail.rotation.x = 0.1;
+        sail.castShadow = true;
+        g.add(sail);
+        const sail2 = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 1.0), sailMat);
+        sail2.position.set(0.2, 1.1, 0.3);
+        sail2.rotation.y = -0.2;
+        sail2.rotation.x = 0.2;
+        sail2.castShadow = true;
+        g.add(sail2);
+        const emblem = new THREE.Mesh(
+          new THREE.CircleGeometry(0.15, 16),
+          new THREE.MeshStandardMaterial({ color: 0xc9a96e, emissive: 0xc9a96e, emissiveIntensity: 0.2 })
+        );
+        emblem.position.set(0.5, 1.5, 0.01);
+        g.add(emblem);
+        g.position.set(0, -0.2, -4);
+        g.rotation.y = 0.2;
+        return g;
+      }
+      const yacht = createYacht();
+      contactGroup.add(yacht);
+      // Sunset clouds (warm oranges)
+      for (let i=0; i<30; i++) {
+        const cloud = createCloud(
+          (Math.random()-0.5)*35,
+          1 + Math.random()*5,
+          (Math.random()-0.5)*25 - 6,
+          0.8 + Math.random()*2.5,
+          0xffaa77, 0xff8844
+        );
+        contactGroup.add(cloud);
+      }
+
+      // Initially show space
+      spaceGroup.visible = true;
+      aboutGroup.visible = false;
+      beachGroup.visible = false;
+      contactGroup.visible = false;
+
+      // ---- Logo (flat plane with texture) ----
+      const textureLoader = new THREE.TextureLoader();
+      const logoTexture = textureLoader.load('logo.png');
+      const logoMat = new THREE.MeshStandardMaterial({
+        map: logoTexture,
+        transparent: true,
+        emissive: 0xc9a96e,
+        emissiveIntensity: 0.1,
+        side: THREE.DoubleSide,
+        depthWrite: false
+      });
+      const logoGeo = new THREE.PlaneGeometry(1.8, 1.8);
+      const logo = new THREE.Mesh(logoGeo, logoMat);
+      logo.position.set(0, 0.5, 0);
+      scene.add(logo);
+
+      // ---- Scroll Handling ----
+      window.addEventListener('scroll', () => {
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        scrollProgress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+        const sectionSize = 1 / totalSections;
+        let idx = Math.floor(scrollProgress / sectionSize);
+        idx = Math.min(3, idx);
+        const frac = (scrollProgress - idx * sectionSize) / sectionSize;
+
+        if (idx !== currentScene) {
+          fromIndex = currentScene;
+          toIndex = idx;
+          transitionProgress = frac;
+          // Blur
+          const blurEl = document.getElementById('blur-overlay');
+          const blurIntensity = Math.sin(frac * Math.PI) * 6;
+          blurEl.style.backdropFilter = `blur(${blurIntensity}px)`;
+          blurEl.style.webkitBackdropFilter = `blur(${blurIntensity}px)`;
+          blurEl.style.opacity = Math.min(1, blurIntensity / 3);
+        } else {
+          transitionProgress = 1;
+        }
+        currentScene = idx;
+
+        // Nav highlights
+        document.querySelectorAll('nav a').forEach((el, i) => {
+          el.classList.toggle('active', i === currentScene);
+        });
+
+        // Content visibility
+        document.querySelectorAll('.section-content .content-wrapper').forEach((wrapper, i) => {
+          wrapper.classList.toggle('visible', i === currentScene);
+        });
+
+        // ---- Interpolate camera & logo ----
+        const from = targetPositions[fromIndex];
+        const to = targetPositions[toIndex];
+        const t = transitionProgress;
+        const ease = t<0.5 ? 2*t*t : -1+(4-2*t)*t;
+        const pos = {
+          x: from.x + (to.x - from.x) * ease,
+          y: from.y + (to.y - from.y) * ease,
+          z: from.z + (to.z - from.z) * ease
+        };
+        const target = [
+          from.target[0] + (to.target[0] - from.target[0]) * ease,
+          from.target[1] + (to.target[1] - from.target[1]) * ease,
+          from.target[2] + (to.target[2] - from.target[2]) * ease
+        ];
+        camera.position.set(pos.x, pos.y, pos.z);
+        camera.lookAt(target[0], target[1], target[2]);
+
+        // Logo fixed position (below nav)
+        logo.position.set(0, 4.0, 0);
+        const logoScale = 0.9 + 0.1 * Math.sin(scrollProgress * Math.PI * 2);
+        logo.scale.set(logoScale, logoScale, logoScale);
+
+        // Background color blending
+        const bg1 = new THREE.Color(bgColors[fromIndex]);
+        const bg2 = new THREE.Color(bgColors[toIndex]);
+        const blended = bg1.clone().lerp(bg2, ease);
+        scene.background = blended;
+
+        // Scene visibility
+        const groups = [spaceGroup, aboutGroup, beachGroup, contactGroup];
+        if (transitionProgress < 0.5) {
+          groups.forEach((g, i) => { g.visible = (i === fromIndex); });
+        } else {
+          groups.forEach((g, i) => { g.visible = (i === toIndex); });
+        }
+      });
+
+      // ---- Nav click scroll ----
+      document.querySelectorAll('nav a').forEach((link, idx) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const sectionSize = 1 / totalSections;
+          const targetScroll = idx * sectionSize * (document.body.scrollHeight - window.innerHeight);
+          window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        });
+      });
+
+      // ---- Animation Loop ----
+      const clock = new THREE.Clock();
+
+      function animate() {
+        const delta = clock.getDelta();
+        const elapsed = clock.getElapsedTime();
+
+        // Rotate stars
+        if (stars) stars.rotation.y += delta * 0.002;
+
+        // Animate clouds in about and contact
+        [aboutGroup, contactGroup].forEach(group => {
+          if (group.visible) {
+            group.children.forEach(child => {
+              if (child.isGroup && child.children.length > 0) {
+                child.position.x += Math.sin(elapsed * 0.1 + child.id) * 0.002;
+                child.position.z += Math.cos(elapsed * 0.08 + child.id) * 0.002;
+              }
+            });
+          }
+        });
+
+        // Ocean waves
+        [ocean, yachtOcean].forEach(o => {
+          if (o && o.geometry.attributes.position) {
+            const pos = o.geometry.attributes.position;
+            for (let i=0; i<pos.count; i++) {
+              const x = pos.getX(i);
+              const z = pos.getZ(i);
+              const y = 0.08 * Math.sin(x*1.2 + elapsed*0.6) * Math.cos(z*1.0 + elapsed*0.5);
+              pos.setY(i, y);
+            }
+            pos.needsUpdate = true;
+          }
+        });
+
+        // Yacht sway
+        if (contactGroup.visible) {
+          yacht.rotation.z = 0.03 * Math.sin(elapsed * 0.3);
+          yacht.position.y = 0.05 * Math.sin(elapsed * 0.5);
+        }
+
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+
+      // ---- Resize ----
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // Trigger initial scroll update
+      window.dispatchEvent(new Event('scroll'));
+    })();
+  </script>
+</body>
+</html>
