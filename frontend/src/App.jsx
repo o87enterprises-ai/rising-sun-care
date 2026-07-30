@@ -1,122 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { useRef } from "react";
+import { useScrollSections } from "./hooks/useScrollSections";
+import ThreeBackground from "./components/ThreeBackground";
+import Navbar from "./components/Navbar";
+import HomeSection from "./components/sections/HomeSection";
+import AboutSection from "./components/sections/AboutSection";
+import ServicesSection from "./components/sections/ServicesSection";
+import ContactSection from "./components/sections/ContactSection";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { activeIndex, transitionProgress } = useScrollSections();
+  const sectionRefs = useRef([]);
+
+  const handleNavigate = (idx) => {
+    const sectionSize = 1 / 4;
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const targetScroll = idx * sectionSize * maxScroll;
+    window.scrollTo({ top: targetScroll, behavior: "smooth" });
+  };
+
+  const sections = [
+    { id: "home", component: HomeSection },
+    { id: "about", component: AboutSection },
+    { id: "services", component: ServicesSection },
+    { id: "contact", component: ContactSection },
+  ];
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      <ThreeBackground sceneIndex={activeIndex} transitionProgress={transitionProgress} />
+      <Navbar activeIndex={activeIndex} onNavigate={handleNavigate} />
+      <div style={{
+        position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
+        pointerEvents: "none", zIndex: 5,
+        background: "radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.5) 100%)",
+        opacity: Math.min(1, Math.sin(transitionProgress * Math.PI) * 0.8),
+        backdropFilter: `blur(${Math.sin(transitionProgress * Math.PI) * 6}px)`,
+        transition: "opacity 0.1s"
+      }} />
+      {sections.map(({ id, component: Component }, index) => (
+        <Component key={id} isVisible={activeIndex === index} />
+      ))}
+      <div style={{
+        position: "fixed", bottom: "2rem", left: "50%", transform: "translateX(-50%)",
+        zIndex: 20, color: "rgba(255,255,255,0.25)", fontSize: "0.7rem",
+        letterSpacing: "2px", animation: "bounce 2s infinite"
+      }}>↓ Scroll to explore ↓</div>
+      <style>{`
+        @keyframes bounce {
+          0%,20%,50%,80%,100% { transform: translateX(-50%) translateY(0); }
+          40% { transform: translateX(-50%) translateY(-8px); }
+          60% { transform: translateX(-50%) translateY(-4px); }
+        }
+      `}</style>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

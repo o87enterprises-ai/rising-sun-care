@@ -72,7 +72,21 @@ app.post("/api/tour-requests", async (req, res) => {
   }
 });
 
-// ---- (Optional) Delete resident ----
+// ---- GET tour-requests (for dashboard) ----
+app.get("/api/tour-requests", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("tour_requests")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ---- Delete resident ----
 app.delete("/api/residents/:id", async (req, res) => {
   try {
     const { id } = req.params;
