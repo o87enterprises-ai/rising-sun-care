@@ -9,29 +9,89 @@ export default function Navbar({ activeIndex, onNavigate }) {
   };
 
   return (
-    <nav style={{
-      position: "fixed", top: "1.5rem", left: "50%", transform: "translateX(-50%)", zIndex: 20,
-      display: "flex", justifyContent: "center", alignItems: "center", gap: "2.5rem",
-      padding: "0.6rem 2rem", borderRadius: "100px",
-      background: "rgba(11,10,8,0.5)", border: "1px solid rgba(201,169,110,0.15)",
-      backdropFilter: "blur(12px)", whiteSpace: "nowrap", flexWrap: "nowrap"
-    }}>
-      {links.map((label, idx) => (
-        <a key={label} href={`#section-${label.toLowerCase()}`} onClick={(e) => handleClick(e, idx)}
-          style={{
-            color: activeIndex === idx ? "#c9a96e" : "rgba(245,240,235,0.7)",
-            textDecoration: "none", fontSize: "0.8rem", fontWeight: 300,
-            letterSpacing: "1.5px", textTransform: "uppercase", cursor: "pointer", transition: "color 0.3s"
-          }}>
-          {label}
-        </a>
-      ))}
-      <button style={{
-        background: "#c9a96e", color: "#0b0a08", border: "none", padding: "0.4rem 1.6rem",
-        borderRadius: "50px", fontSize: "0.7rem", fontWeight: 500, cursor: "pointer",
-        transition: "all 0.3s", textTransform: "uppercase"
-      }} onMouseEnter={(e) => e.target.style.transform = "scale(1.05)"}
-         onMouseLeave={(e) => e.target.style.transform = "scale(1)"}>
+    <nav
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '0.6rem 2rem',
+        borderRadius: '100px',
+        background: 'rgba(11, 10, 8, 0.6)',
+        border: '1px solid rgba(245, 166, 35, 0.2)',
+        backdropFilter: 'blur(8px)',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        width: '100%',
+        gap: '1rem',
+        pointerEvents: 'auto',
+      }}
+    >
+      <a href="#home" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', textDecoration: 'none' }}>
+        <img src="/logo.png" alt="Rising Sun logo" style={{ height: '40px', width: 'auto', borderRadius: '4px' }} />
+        <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.6rem', fontWeight: 400, letterSpacing: '2px', color: '#f5f0eb' }}>
+          <span style={{ color: '#f5a623' }}>Rising</span> Sun
+        </span>
+      </a>
+
+      <ul
+        style={{
+          display: 'flex',
+          gap: '2.5rem',
+          listStyle: 'none',
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        {links.map((label, idx) => (
+          <li key={idx}>
+            <a
+              href={`#${label.toLowerCase()}`}
+              onClick={(e) => handleClick(e, idx)}
+              style={{
+                color: activeIndex === idx ? '#f5a623' : 'rgba(245,240,235,0.7)',
+                textDecoration: 'none',
+                fontSize: '0.9rem',
+                fontWeight: 300,
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                transition: 'color 0.3s',
+              }}
+              onMouseEnter={(e) => (e.target.style.color = '#f5a623')}
+              onMouseLeave={(e) => {
+                if (activeIndex !== idx) e.target.style.color = 'rgba(245,240,235,0.7)';
+              }}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <button
+        className="nav-cta"
+        style={{
+          background: 'transparent',
+          border: '1px solid #f5a623',
+          color: '#f5a623',
+          padding: '0.5rem 1.8rem',
+          borderRadius: '50px',
+          fontSize: '0.8rem',
+          fontWeight: 500,
+          cursor: 'pointer',
+          transition: 'all 0.3s',
+          textTransform: 'uppercase',
+          background: 'rgba(245, 166, 35, 0.05)',
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.background = '#f5a623';
+          e.target.style.color = '#0b0a08';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.background = 'rgba(245, 166, 35, 0.05)';
+          e.target.style.color = '#f5a623';
+        }}
+      >
         Schedule Tour
       </button>
     </nav>
