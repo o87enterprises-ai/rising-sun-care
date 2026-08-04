@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Golden Moments Care Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .brand-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Note: The CSS sun placeholder is removed here since we are using the real logo image everywhere */
+    </style>
+</head>
+<body class="bg-white text-gray-800 antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-sm shadow-sm z-50 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <!-- Your actual logo image goes here -->
+                <img src="/logo.png" class="w-24 h-auto" alt="Golden Moments Logo" />
+                
+                <!-- The text sits right next to the image -->
+                <div>
+                    <h1 class="brand-serif text-2xl font-bold tracking-tight text-gray-900">Golden Moments</h1>
+                    <p class="text-xs font-light text-gray-500 -mt-1">Care Home</p>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="#" class="hover:text-orange-500 transition">Home</a>
+                <a href="#" class="hover:text-orange-500 transition">About</a>
+                <a href="#" class="hover:text-orange-500 transition">Services</a>
+                <a href="#" class="hover:text-orange-500 transition">Contact</a>
+                <a href="#" class="bg-orange-500 text-white px-6 py-2.5 rounded-full hover:bg-orange-600 transition shadow-md">Get Care</a>
+            </div>
+            <button class="md:hidden text-gray-600 text-xl">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-gradient-to-br from-yellow-50 via-orange-50 to-amber-100 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="inline-block bg-white/60 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-medium text-orange-700 mb-6 border border-orange-200">
+                    ✦ Compassionate Memory Care
+                </span>
+                <h1 class="brand-serif text-4xl md:text-6xl font-bold leading-tight text-gray-900 mb-4">
+                    Where Every Moment <br /> Shines Bright
+                </h1>
+                <p class="text-lg text-gray-600 max-w-lg mb-8 leading-relaxed">
+                    Providing a warm, secure, and compassionate home for your loved ones. We honor their past while enriching their present, one golden moment at a time.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#" class="inline-flex items-center justify-center bg-orange-500 text-white px-8 py-3.5 rounded-full font-medium hover:bg-orange-600 transition shadow-lg hover:shadow-orange-200">
+                        Schedule a Tour
+                    </a>
+                    <a href="#" class="inline-flex items-center justify-center border-2 border-gray-300 bg-white px-8 py-3.5 rounded-full font-medium text-gray-700 hover:border-orange-400 hover:text-orange-600 transition">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="flex justify-center md:justify-end relative">
+                <!-- Hero Square Box with Real Logo -->
+                <div class="relative w-full max-w-md aspect-square bg-white/40 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/50 p-8 flex flex-col items-center justify-center">
+                    
+                    <!-- Replaced CSS sun with your real logo image -->
+                    <img src="/logo.png" class="w-32 h-auto mb-4" alt="Golden Moments Logo" />
+                    
+                    <h3 class="brand-serif text-2xl font-bold text-gray-800 text-center mt-2">Golden Moments</h3>
+                    <p class="text-sm text-gray-500">Care Home</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <p class="text-orange-500 font-medium tracking-wide uppercase text-sm mb-2">About Our Home</p>
+                <h2 class="brand-serif text-4xl font-bold text-gray-900 mb-4">More Than a Place to Stay</h2>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    We believe that memory care should feel like family. Our highly trained staff, welcoming environment, and personalized activities ensure your loved one feels safe, valued, and truly at home.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-yellow-50/50 p-8 rounded-2xl border border-yellow-100 hover:shadow-lg transition">
+                    <div class="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center text-xl mb-4">❤️</div>
+                    <h3 class="text-xl font-semibold mb-2">Personalized Care</h3>
+                    <p class="text-gray-500">Tailored support plans that adapt to the unique needs and personalities of each resident.</p>
+                </div>
+                <div class="bg-orange-50/50 p-8 rounded-2xl border border-orange-100 hover:shadow-lg transition">
+                    <div class="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center text-xl mb-4">🌿</div>
+                    <h3 class="text-xl font-semibold mb-2">Nurturing Environment</h3>
+                    <p class="text-gray-500">Secure, comfortable, and filled with the warmth of natural light and meaningful connection.</p>
+                </div>
+                <div class="bg-green-50/50 p-8 rounded-2xl border border-green-100 hover:shadow-lg transition">
+                    <div class="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center text-xl mb-4">🎨</div>
+                    <h3 class="text-xl font-semibold mb-2">Meaningful Activities</h3>
+                    <p class="text-gray-500">Music therapy, art sessions, and gentle physical activities that spark joy and nostalgia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8">
+            <div>
+                <h2 class="brand-serif text-xl font-bold text-white mb-4">Golden Moments</h2>
+                <p class="text-sm leading-relaxed">A sanctuary of compassionate memory care where every sunrise brings peace and comfort.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold text-white mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-orange-400 transition">Home</a></li>
+                    <li><a href="#" class="hover:text-orange-400 transition">Our Philosophy</a></li>
+                    <li><a href="#" class="hover:text-orange-400 transition">Care Services</a></li>
+                    <li><a href="#" class="hover:text-orange-400 transition">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-white mb-4">Services</h4>
+                <ul class="space-y-2 text-sm">
+                    <li>Memory Support</li>
+                    <li>Assisted Living</li>
+                    <li>Respite Care</li>
+                    <li>Daily Wellness</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-white mb-4">Contact</h4>
+                <ul class="space-y-2 text-sm">
+                    <li>📍 123 Sunrise Lane,<br/>Golden City, CA 90210</li>
+                    <li>📞 (555) 123-4567</li>
+                    <li>✉️ hello@goldenmoments.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-gray-800 text-center text-xs text-gray-500">
+            &copy; 2026 Golden Moments Care Home. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
